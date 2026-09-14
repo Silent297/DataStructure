@@ -30,16 +30,31 @@ void GameBoard::reset() {
 int GameBoard::move(Direction direction) {
     // Complete one move: slide, merge, and slide again.
     // TODO 1
+    Board before = board;
+    slide(direction);
+    int score = merge(direction);
+    slide(direction);
 
     // Add one new tile only if the board changed. A slide without a merge is
     // still a valid move, so the merge score cannot be used as the criterion.
     // You can refer to reset() for random tile generation.
     // TODO 2
+    if (board != before){
+        std::uniform_int_distribution<int> dist(0, 3); 
+        std::uniform_int_distribution<int> value_dist(0, 1);
+        int row = dist(generator);
+        int col = dist(generator);
+        while (board[row][col] != 0) { // Ensure we don't place a tile on an occupied cell
+            row = dist(generator);
+            col = dist(generator);
+        }
+        board[row][col] = (value_dist(generator) + 1) * 2;
+    }
 
     // Safe placeholder for the unfinished framework. Return the score gained
     // during this move after completing the TODOs above.
     (void)direction;
-    return 0;
+    return score;
 }
 
 void GameBoard::slide(Direction direction) {
