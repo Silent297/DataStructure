@@ -29,7 +29,7 @@ void GameBoard::reset() {
 
 int GameBoard::move(Direction direction) {
     // Complete one move: slide, merge, and slide again.
-    // TODO 1
+    // DONE 1
     Board before = board;
     slide(direction);
     int score = merge(direction);
@@ -38,7 +38,7 @@ int GameBoard::move(Direction direction) {
     // Add one new tile only if the board changed. A slide without a merge is
     // still a valid move, so the merge score cannot be used as the criterion.
     // You can refer to reset() for random tile generation.
-    // TODO 2
+    // DONE 2
     if (board != before){
         std::uniform_int_distribution<int> dist(0, 3); 
         std::uniform_int_distribution<int> value_dist(0, 1);
@@ -82,7 +82,7 @@ void GameBoard::slide(Direction direction) {
                     }
                 }
             }
-            // TODO
+            // DONE
             break;
         case Direction::LEFT:
             for (int row = 0; row < 4; ++row) {
@@ -95,7 +95,7 @@ void GameBoard::slide(Direction direction) {
                     }
                 }
             }
-            // TODO
+            // DONE
             break;
         case Direction::RIGHT:
             for (int row = 0; row < 4; ++row) {
@@ -108,7 +108,7 @@ void GameBoard::slide(Direction direction) {
                     }
                 }
             }
-            // TODO
+            // DONE
             break;
     }
 }
@@ -137,7 +137,7 @@ int GameBoard::merge(Direction direction) {
                     }
                 }
             }
-            // TODO
+            // DONE
             break;
         case Direction::LEFT:
             for (int row = 0; row < 4; ++row) {
@@ -149,7 +149,7 @@ int GameBoard::merge(Direction direction) {
                     }
                 }
             }
-            // TODO
+            // DONE
             break;
         case Direction::RIGHT:
             for (int row = 0; row < 4; ++row) {
@@ -161,7 +161,7 @@ int GameBoard::merge(Direction direction) {
                     }
                 }
             }
-            // TODO
+            // DONE
             break;
     }
 
@@ -170,18 +170,26 @@ int GameBoard::merge(Direction direction) {
 
 bool GameBoard::isGameOver() const {
     // Check if there are any empty tiles
-    // TODO
-
+    // DONE
+    for (int row = 0; row < 4; ++row)
+        for (int col = 0; col < 4; ++col)
+            if (board[row][col] == 0)
+                return false;
+    
     // Check if any adjacent tiles can merge
     // TODO
 
     // Safe placeholder for the unfinished framework.
-    return false;
+    return true;
 }
 
 bool GameBoard::hasWinningTile() const {
     // Check if there is a tile with the value 2048
-    // TODO
+    // DONE
+    for (int row = 0; row < 4; ++row)
+        for (int col = 0; col < 4; ++col)
+            if (board[row][col] == 2048)
+                return true;
 
     // Safe placeholder for the unfinished framework.
     return false;
