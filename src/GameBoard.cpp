@@ -53,7 +53,6 @@ int GameBoard::move(Direction direction) {
 
     // Safe placeholder for the unfinished framework. Return the score gained
     // during this move after completing the TODOs above.
-    (void)direction;
     return score;
 }
 

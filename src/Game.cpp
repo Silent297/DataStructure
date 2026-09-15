@@ -15,11 +15,17 @@ void Game::initGame() {
 
 void Game::updateGame(Direction direction) {
     // Safe placeholder use until the TODOs below are completed.
-    (void)direction;
-
     // Perform the move and determine whether the board actually changed.
     // TODO 1
-
+    Board bfboard = gameBoard.getBoard();
+    int getscore = gameBoard.move(direction);
+    
+    if (bfboard != gameBoard.getBoard()){
+        score += getscore;
+        moveCount ++;
+        historyGameBoards.push(gameBoard);
+        historyScores.push_back(score);
+    }
     // For a valid move, update the score and move count.
     // TODO 2
 
