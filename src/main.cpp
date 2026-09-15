@@ -30,11 +30,14 @@ int main(){
         InputType input = InputHandler::handleInput();
 
         if (input == InputType::UNDO) {
+            game.undoLastMove();
             // Implement undo functionality
-            // TODO
+            // DONE
         } else if (input == InputType::QUIT_GAME) {
+            TerminalRender::displayLoseMessage();
+            break;
             // Think about how to handle quitting the game
-            // TODO
+            // DONE
         } else {
             Direction direction;
             switch (input) {
@@ -56,14 +59,16 @@ int main(){
             }
 
             // Update the game state
-            (void)direction; // Safe placeholder use until the TODO is completed.
-            // TODO
+            game.updateGame(direction);
+            // Safe placeholder use until the TODO is completed.
+            // DONE
 
         }
 
+        TerminalRender::render(game.getGameBoard(),game.getScore(),game.getMoveCount());
         // Render the updated game board
         // refer to how the game is initially rendered
-        // TODO
+        // DONE
 
         // Check for win or lose conditions
         if (game.hasWon()) {
@@ -75,8 +80,9 @@ int main(){
         }
     }
 
+    TerminalRender::displayElapsedTime(game.getElapsedTime());
     // Display elapsed time
-    // TODO
+    // DONE
 
     return 0;
 }

@@ -16,7 +16,7 @@ void Game::initGame() {
 void Game::updateGame(Direction direction) {
     // Safe placeholder use until the TODOs below are completed.
     // Perform the move and determine whether the board actually changed.
-    // TODO 1
+    // DONE 1
     Board bfboard = gameBoard.getBoard();
     int getscore = gameBoard.move(direction);
     
@@ -27,22 +27,21 @@ void Game::updateGame(Direction direction) {
         historyScores.push_back(score);
     }
     // For a valid move, update the score and move count.
-    // TODO 2
-
+    // DONE 2
     // Save the resulting board and score. Invalid moves must not be recorded.
-    // TODO 3
+    // DONE 3
 
 }
 
 void Game::undoLastMove() {
     if (historyGameBoards.size() > 1) {
         // Remove the current state and restore the previous board.
-        // TODO 1
+        // DONE 1
         gameBoard = historyGameBoards.top();
         historyGameBoards.pop();
     
         // Restore the matching score and decrease the valid-move count.
-        // TODO 2
+        // DONE 2
         score = historyScores.back();
         historyScores.pop_back();
         moveCount --;

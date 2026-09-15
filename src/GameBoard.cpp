@@ -176,7 +176,7 @@ bool GameBoard::isGameOver() const {
                 return false;
     
     // Check if any adjacent tiles can merge
-    // TODO
+    // DONE
     for (int col = 0; col < 4; ++col) 
         for (int row = 0; row < 3; ++row) 
             if (board[row][col] == board[row + 1][col])

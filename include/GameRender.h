@@ -1,4 +1,3 @@
-
 #ifndef INC_2048_GAMERENDER_H
 #define INC_2048_GAMERENDER_H
 
