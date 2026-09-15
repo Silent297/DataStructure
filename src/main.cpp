@@ -31,7 +31,6 @@ int main(){
 
         if (input == InputType::UNDO) {
             game.undoLastMove();
-            TerminalRender::render(game.getGameBoard(),game.getScore(),game.getMoveCount());
             // Implement undo functionality
             // DONE
         } else if (input == InputType::QUIT_GAME) {

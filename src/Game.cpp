@@ -37,13 +37,13 @@ void Game::undoLastMove() {
     if (historyGameBoards.size() > 1) {
         // Remove the current state and restore the previous board.
         // DONE 1
-        gameBoard = historyGameBoards.top();
         historyGameBoards.pop();
+        gameBoard = historyGameBoards.top();
     
         // Restore the matching score and decrease the valid-move count.
         // DONE 2
-        score = historyScores.back();
         historyScores.pop_back();
+        score = historyScores.back();
         moveCount --;
     }
     // With only the initial state in history, undo is intentionally a no-op.
