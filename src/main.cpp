@@ -34,7 +34,7 @@ int main(){
             // Implement undo functionality
             // DONE
         } else if (input == InputType::QUIT_GAME) {
-            TerminalRender::displayLoseMessage();
+            std::cout << "Game over! You quit the game.\n";
             break;
             // Think about how to handle quitting the game
             // DONE
