@@ -11,7 +11,6 @@ class stack : public list<data_base> {
         ~stack() = default;
 
         bool empty() override {
-            // TODO
             if(top_index == 0){
                 return true;
             }
@@ -26,10 +25,8 @@ class stack : public list<data_base> {
             else{
                 top_index -= 1;
             }
-            // TODO
         }
         data_base top() override {
-            // TODO
             if(top_index == 0){
                 return data_base{};
             }
@@ -38,7 +35,6 @@ class stack : public list<data_base> {
             return tmp;
         }
         void push(data_base push_data) override {
-            // TODO
             if(top_index == MAX_LINK_LIST_NUM - 1){
                 return;
             }
@@ -47,7 +43,6 @@ class stack : public list<data_base> {
         }
         void clear() override {
             top_index = 0;
-            // TODO
         }
     private:
         int top_index = 0;
