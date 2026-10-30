@@ -40,7 +40,7 @@ int calculator::priority_regular(char c) {
         return 2;
     else if(c == '+' || c == '-')
         return 1;
-    else if(c == '(' || c == ')')
+    else if(c == ')' || c == '(')
         return 0;
     else
         return -1;
@@ -48,10 +48,12 @@ int calculator::priority_regular(char c) {
 
 int calculator::priority(char c1, char c2) {
     // TODO
+    if(priority_regular(c1) == 0 && priority_regular(c2) == 0)
+        return 0;
     if(priority_regular(c1) >= priority_regular(c2))
         return 1;
     else
-        return 0;
+        return -1;
 }
 
 struct calculator::element calculator::read_num() {
@@ -219,8 +221,75 @@ struct calculator::element calculator::get_ans() {
     expr_index = 0;
     op.clear();
     num.clear();
-    
-    return {0, 0, 0};
-}
+    char cur = '\0';
+    calculator::element num1 = {}, num2 = {};
 
+    while(expr_index < expr.size()){
+        cur = expr[expr_index];
+        std::string operation = "+-*/^()";
+        std::string digit = "0123456789";
+
+        if(operation.find(cur) != std::string::npos){
+            if(op.empty() || cur == '(')
+                op.push(cur);
+            else if(cur == ')'){
+                while(op.top() != '('){
+                        num2 = num.top();
+                        num.pop();
+                        num1 = num.top();
+                        num.pop();
+                        num.push(operate(num1, op.top(), num2));
+                        op.pop();
+                }
+                op.pop();
+            }
+            else if(cur == '-' && expr[expr_index - 1] == '('){
+                expr_index++;
+                calculator::element negative = read_num();
+                negative.num_int = -negative.num_int;
+                negative.num_double = - negative.num_double;
+                num.push(negative);
+                continue;
+            }
+            else{
+                switch(priority(op.top(), cur)){
+                    case 1:
+                        while(priority(op.top(), cur) == 1){
+                            num2 = num.top();
+                            num.pop();
+                            num1 = num.top();
+                            num.pop();
+                            num.push(operate(num1, op.top(), num2));
+                            op.pop();
+                        }
+                        op.push(cur);
+                        break;
+                    case -1:
+                        op.push(cur);
+                        break;
+                    case 0:
+                        op.pop();
+                        break;
+                }
+            }
+            expr_index++;
+        }
+        
+        else if(digit.find(cur) != std::string::npos){
+            num.push(read_num());
+        }
+
+    }
+    while(op.empty() == false){
+            cur = op.top();
+            op.pop();
+            num2 = num.top();
+            num.pop();
+            num1 = num.top();
+            num.pop();
+            num.push(operate(num1, cur, num2));
+    }
+
+    return num.top();
+}
 }
