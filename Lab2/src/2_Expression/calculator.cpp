@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "calculator.h"
 
 namespace DATA_STRUCTURE {
@@ -58,7 +59,7 @@ struct calculator::element calculator::read_num() {
     // TODO
     std::string operation = "+-*/^";
     std::string digit = "0123456789";
-    while(expr_index >= expr.size() && digit.find(expr[expr_index]) != std::string::npos || expr[expr_index] == '.'){
+    while(expr_index < expr.size() && (digit.find(expr[expr_index]) != std::string::npos || expr[expr_index] == '.') ){
         char c = expr[expr_index];
         if(digit.find(c) != std::string::npos){
             int n = c - '0';
@@ -81,11 +82,144 @@ struct calculator::element calculator::read_num() {
 
 struct calculator::element calculator::operate(struct calculator::element element1, char c, struct calculator::element element2) {
     // TODO
-    return {0, 0, 0};
+    calculator::element result;
+    switch(c){
+        case '+': 
+            if(element1.flag == 0 && element2.flag == 0){
+                result.flag = 0;
+                result.num_int = element1.num_int + element2.num_int;
+                result.num_double = 0;
+            }
+            else if(element1.flag == 1 && element2.flag == 0){
+                result.flag = 1;
+                result.num_double = element1.num_double + element2.num_int;
+                result.num_int = 0;
+            }
+            else if(element1.flag == 0 && element2.flag == 1){
+                result.flag = 1;
+                result.num_double = element1.num_int + element2.num_double;
+                result.num_int = 0;
+            }
+            else{
+                result.flag = 1;
+                result.num_double = element1.num_double + element2.num_double;
+                result.num_int = 0;
+            }
+            break;
+        case '-':
+                if(element1.flag == 0 && element2.flag == 0){
+                result.flag = 0;
+                result.num_int = element1.num_int - element2.num_int;
+                result.num_double = 0;
+            }
+            else if(element1.flag == 1 && element2.flag == 0){
+                result.flag = 1;
+                result.num_double = element1.num_double - element2.num_int;
+                result.num_int = 0;
+            }
+            else if(element1.flag == 0 && element2.flag == 1){
+                result.flag = 1;
+                result.num_double = element1.num_int - element2.num_double;
+                result.num_int = 0;
+            }
+            else{
+                result.flag = 1;
+                result.num_double = element1.num_double - element2.num_double;
+                result.num_int = 0;
+            }
+            break;
+        case '*':
+            if(element1.flag == 0 && element2.flag == 0){
+                result.flag = 0;
+                result.num_int = element1.num_int * element2.num_int;
+                result.num_double = 0;
+            }
+            else if(element1.flag == 1 && element2.flag == 0){
+                result.flag = 1;
+                result.num_double = element1.num_double * element2.num_int;
+                result.num_int = 0;
+            }
+            else if(element1.flag == 0 && element2.flag == 1){
+                result.flag = 1;
+                result.num_double = element1.num_int * element2.num_double;
+                result.num_int = 0;
+            }
+            else{
+                result.flag = 1;
+                result.num_double = element1.num_double * element2.num_double;
+                result.num_int = 0;
+            }
+            break;
+        case '/':
+            if(element1.flag == 0 && element2.flag == 0){
+                if(element2.num_int == 0)
+                    throw std::runtime_error("division by zero");
+                result.flag = 1;
+                result.num_double = (double)element1.num_int / element2.num_int;
+                result.num_int = 0;
+            }
+            else if(element1.flag == 1 && element2.flag == 0){
+                if(element2.num_int == 0)
+                    throw std::runtime_error("division by zero");
+                result.flag = 1;
+                result.num_double = element1.num_double / element2.num_int;
+                result.num_int = 0;
+            }
+            else if(element1.flag == 0 && element2.flag == 1){
+                if(element2.num_double == 0)
+                    throw std::runtime_error("division by zero");
+                result.flag = 1;
+                result.num_double = element1.num_int / element2.num_double;
+                result.num_int = 0;
+            }
+            else{
+                if(element2.num_double == 0)
+                    throw std::runtime_error("division by zero");
+                result.flag = 1;
+                result.num_double = element1.num_double / element2.num_double;
+                result.num_int = 0;
+            }
+            break;
+        case '^':
+            if(element1.flag == 0 && element2.flag == 0){
+                if(element1.num_int == 0 && element2.num_int < 0)
+                    throw std::domain_error("a negative power of zero");
+                result.flag = 1;
+                result.num_double = pow(element1.num_int, element2.num_int);
+                result.num_int = 0;
+            }
+            else if(element1.flag == 1 && element2.flag == 0){
+                if(element1.num_double == 0 && element2.num_int < 0)
+                    throw std::domain_error("a negative power of zero");
+                result.flag = 1;
+                result.num_double = pow(element1.num_double, element2.num_int);
+                result.num_int = 0;
+            }
+            else if(element1.flag == 0 && element2.flag == 1){
+                if(element1.num_int == 0 && element2.num_double < 0)
+                    throw std::domain_error("a negative power of zero");
+                result.flag = 1;
+                result.num_double = pow(element1.num_int, element2.num_double);
+                result.num_int = 0;
+            }
+            else{
+                if(element1.num_double == 0 && element2.num_double < 0)
+                    throw std::domain_error("a negative power of zero");
+                result.flag = 1;
+                result.num_double = pow(element1.num_double, element2.num_double);
+                result.num_int = 0;
+            }
+            break;
+    }
+    return result;
 }
 
 struct calculator::element calculator::get_ans() {
     // TODO
+    expr_index = 0;
+    op.clear();
+    num.clear();
+    
     return {0, 0, 0};
 }
 
