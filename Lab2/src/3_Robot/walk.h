@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <string>
 
 #include "queue.h"
 #include "unordered_set.h"
@@ -30,6 +31,7 @@ class walk {
             int value;
             int x, y;
             unordered_set<int> get_gold;
+            std::string gold_state;
         };
         queue<struct element> q;
 
