@@ -1,3 +1,5 @@
+#include <map>
+#include <tuple>
 #include "walk.h"
 
 namespace DATA_STRUCTURE {
@@ -11,12 +13,52 @@ void walk::print_para() {
 
 int walk::compute_distance(int i, int x, int y) {
     // TODO
-    return 0;
+    return ceil( (double) abs(x - gold[2*i]) / 2) + ceil( (double) abs(y - gold[2*i+1]) / 2);
 }
 
 int walk::get_value() {
     int max_value = 0;
     // TODO
+    walk::element cur = {};
+    cur.x = 0, cur.y = 0;
+    cur.steps = steps;
+    cur.value = 0;
+    cur.get_gold = {};
+    q.push(cur);
+
+    std::map<std::tuple<int, int, int>, int> visited;
+
+    while(q.empty() == false){
+        cur = q.top();
+        q.pop();
+        if(cur.steps == 0){
+            continue;
+        }
+        walk::element next = {};
+
+        const int dx[8] = {1, 2, -1, -2, 0, 0, 0, 0};
+        const int dy[8] = {0, 0, 0, 0, 1, 2, -1, -2};
+        for(int i = 0; i < 8; i++){
+            next.x = cur.x + dx[i], next.y = cur.y + dy[i], next.steps = cur.steps - 1, next.get_gold = cur.get_gold, next.value = cur.value;
+            for(int j = 0; j < gold_num; j++){
+                if(next.get_gold.find(j)){
+                    continue;
+                }
+                if(compute_distance(j, next.x, next.y) == 0){
+                    next.get_gold.insert(j);
+                    next.value += gold_value[j];
+                }
+            }
+            max_value = (next.value >= max_value) ? next.value : max_value;
+            auto key = std::make_tuple(next.x, next.y, next.steps);
+            auto situation = visited.find(key);
+            if (situation == visited.end() || next.value > situation->second) {
+                visited[key] = next.value;
+                q.push(next);
+            }
+        }
+    }
+
     return max_value;
 }
 
