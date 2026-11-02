@@ -243,7 +243,7 @@ struct calculator::element calculator::get_ans() {
                 }
                 op.pop();
             }
-            else if(cur == '-' && expr[expr_index - 1] == '('){
+            else if(cur == '-' && (expr_index == 0 || expr[expr_index - 1] == '(')){
                 expr_index++;
                 calculator::element negative = read_num();
                 negative.num_int = -negative.num_int;
