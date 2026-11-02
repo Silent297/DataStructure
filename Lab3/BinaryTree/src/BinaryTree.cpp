@@ -11,21 +11,48 @@ BinaryTreeNode::BinaryTreeNode() : left(nullptr), right(nullptr) {}
 void BinaryTreeNode::PreOrderTraverse(BinaryTreeNode* root) {
     // 使用getValue()函数获得节点的值
     // TODO
+    if(root != nullptr){
+        getValue();
+        PreOrderTraverse(root->left);
+        PreOrderTraverse(root->right);
+    }
 }
 
 // 中序遍历的实现：先中序遍历左子树，再访问根节点，最后中序遍历右子树
 void BinaryTreeNode::InOrderTraverse(BinaryTreeNode* root) {
-    // TODO
+        if(root != nullptr){
+        InOrderTraverse(root->left);
+        getValue();
+        InOrderTraverse(root->right);
+    }// TODO
 }
 
 // 后序遍历的实现：先后序遍历左子树，再后序遍历右子树，最后访问根节点
 void BinaryTreeNode::PostOrderTraverse(BinaryTreeNode* root) {
+    if(root != nullptr){
+        PostOrderTraverse(root->left);
+        PostOrderTraverse(root->right);
+        getValue();
+    }
     // TODO
 }
 
 // 层次遍历的实现：使用队列，按层级从上到下、从左到右遍历树
 void BinaryTreeNode::LevelOrderTraverse(BinaryTreeNode* root) {
     // TODO
+    queue<BinaryTreeNode*> nodes;
+    nodes.push(root);
+    BinaryTreeNode *cur = nullptr;
+
+    while(nodes.empty() == false){
+        cur = nodes.front();
+        nodes.pop();
+        if(cur != nullptr){
+            getValue();
+            nodes.push(cur->left);
+            nodes.push(cur->right);
+        }
+    }
 }
 
 // 辅助函数：通过中序和后序遍历构建树（递归实现）
