@@ -18,6 +18,35 @@ string ExpressionBinaryTreeNode::getValue() {
 //    返回构建的表达式树根节点
 ExpressionBinaryTreeNode* ExpressionBinaryTreeNode::buildFromPostfix(const string& postfix) {
     // TODO
+    stack<ExpressionBinaryTreeNode*> operandStack;
+    
+    for (size_t i = 0; i < postfix.size(); ++i) {
+        char ch = postfix[i];
+        
+        if (isdigit(ch)) {
+            operandStack.push(new ExpressionBinaryTreeNode(string(1, ch)));
+        } 
+        else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+           if(operandStack.size() >= 2) {
+                ExpressionBinaryTreeNode* right = operandStack.top();
+                operandStack.pop();
+                ExpressionBinaryTreeNode* left = operandStack.top();
+                operandStack.pop();
+                ExpressionBinaryTreeNode* node = new ExpressionBinaryTreeNode(string(1, ch));
+                node->left = left;
+                node->right = right;
+                operandStack.push(node);
+            }
+            else
+                return nullptr;
+        }
+        else
+            return nullptr;
+    }
+    if(operandStack.size() == 1)
+        return operandStack.top();
+    else
+        return nullptr;
 }
 
 // 从前缀表达式构建表达式树
@@ -27,6 +56,35 @@ ExpressionBinaryTreeNode* ExpressionBinaryTreeNode::buildFromPostfix(const strin
 //    返回构建的表达式树根节点
 ExpressionBinaryTreeNode* ExpressionBinaryTreeNode::buildFromPrefix(const string& prefix) {
     // TODO
+    stack<ExpressionBinaryTreeNode*> operandStack;
+    size_t length = prefix.size();
+    for (size_t i = 0; i < length; ++i)  {
+        char ch = prefix[length - i - 1];
+        
+        if (isdigit(ch)) {
+            operandStack.push(new ExpressionBinaryTreeNode(string(1, ch)));
+        } 
+        else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+           if(operandStack.size() >= 2) {
+                ExpressionBinaryTreeNode* left = operandStack.top();
+                operandStack.pop();
+                ExpressionBinaryTreeNode* right = operandStack.top();
+                operandStack.pop();
+                ExpressionBinaryTreeNode* node = new ExpressionBinaryTreeNode(string(1, ch));
+                node->left = left;
+                node->right = right;
+                operandStack.push(node);
+            }
+            else
+                return nullptr;
+        }
+        else
+            return nullptr;
+    }
+    if(operandStack.size() == 1)
+        return operandStack.top();
+    else
+        return nullptr;
 }
 
 // 从中缀表达式构建表达式树
