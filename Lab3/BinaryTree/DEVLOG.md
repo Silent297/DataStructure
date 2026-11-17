@@ -42,5 +42,5 @@ NodePool& pool() {
 
 ### 其他未决问题
 
-- `LevelOrderTraverse` 第 51 行为 `cout << root->getValue();`，应改为 `cur->getValue();`（main 未调用层次遍历，样例不会暴露）。
-- 表达式树、哈夫曼树尚未实现，`main` 运行到表达式树部分会段错误。
+- ~~`LevelOrderTraverse` 第 51 行为 `cout << root->getValue();`，应改为 `cur->getValue();`~~（已改为 `cur->getValue()`，实测输出 `ABCDEF`）。
+- 表达式树、哈夫曼树已实现，完整 demo 运行通过，退出码 0。
